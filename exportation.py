@@ -1,5 +1,5 @@
 # version
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 # python
 import os
@@ -18,7 +18,7 @@ from cytomine.models.user import UserJob, UserJobCollection
 # ------------------------------ Support functions ------------------------------
 
 # Función que recoge las coordenadas de todas las anotaciones manuales
-def anotaciones_general(params):
+def get_anotaciones_general(params):
     general_annots = AnnotationCollection()
     general_annots.project = params.cytomine_id_project
     general_annots.image = params.image_to_analyze
@@ -30,24 +30,33 @@ def anotaciones_general(params):
     
     general_annots.fetch()
     
+    #ID_list = []
+    #Image_list = []
+    #Project_list = []
+    Term_list = []
+    #User_list = []
+    Area_list = []
+    Perimeter_list = []
+    WKT_list = []
+    
     for general_annot in general_annots:
-            ID_list.append(general_annot.id)
-            Image_list.append(general_annot.image)
-            Project_list.append(general_annot.project)
+            #ID_list.append(general_annot.id)
+            #Image_list.append(general_annot.image)
+            #Project_list.append(general_annot.project)
             Term_list.append(general_annot.term)
-            User_list.append(general_annot.user)
+            #User_list.append(general_annot.user)
             Area_list.append(general_annot.area)
             Perimeter_list.append(general_annot.perimeter)
             WKT_list.append(general_annot.location)
             
-        dict = {"ID": ID_list,
-               "Image":Image_list,
-               "Project":Project_list,
+        dict = {#"ID": ID_list,
+               #"Image":Image_list,
+               #"Project":Project_list,
                "Term":Term_list,
-               "User":User_list,
+               #"User":User_list,
                "Area":Area_list,
                "Perimeter":Perimeter_list,
-               "WKT":WKT_list}
+               "Geometría":WKT_list}
         
     return dict
 
@@ -55,7 +64,7 @@ def anotaciones_general(params):
 
 # STEP 1: buscar parches
 ###def get_parches(params):
-    ###diccionario = anotaciones_general(params)
+    ###diccionario = get_anotaciones_general(params)
     ###if diccionario["Perimeter"] == 4096
 
 # STEP 2: recuperar detecciones de dentro del parche
