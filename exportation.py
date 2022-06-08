@@ -1,5 +1,5 @@
 # version
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 # python
 import os
@@ -10,7 +10,7 @@ import shutil
 # cytomine
 import cytomine
 from cytomine.models.annotation import Annotation, AnnotationCollection
-from cytomine.models.image import InstanceCollection
+from cytomine.models.image import ImageInstance
 from cytomine.models.software import Job, JobCollection, JobData, JobDataCollection
 from cytomine.models.user import UserJob, UserJobCollection
 
@@ -30,33 +30,27 @@ def get_anotaciones_general(params):
     
     general_annots.fetch()
     
-    #ID_list = []
-    #Image_list = []
-    #Project_list = []
-    Term_list = []
-    #User_list = []
+    manual_annots = []
+    
+    for general_annot in general_annots:
+        if general_annot.term == []:
+            manual_annots.append(general_annot)
+
+    User_list = []
     Area_list = []
     Perimeter_list = []
     WKT_list = []
     
-    for general_annot in general_annots:
-            #ID_list.append(general_annot.id)
-            #Image_list.append(general_annot.image)
-            #Project_list.append(general_annot.project)
-            Term_list.append(general_annot.term)
-            #User_list.append(general_annot.user)
-            Area_list.append(general_annot.area)
-            Perimeter_list.append(general_annot.perimeter)
-            WKT_list.append(general_annot.location)
+    for manual_annot in manual_annots:
+            User_list.append(manual_annot.user)
+            Area_list.append(manual_annot.area)
+            Perimeter_list.append(manual_annot.perimeter)
+            WKT_list.append(manual_annot.location)
             
-        dict = {#"ID": ID_list,
-               #"Image":Image_list,
-               #"Project":Project_list,
-               "Term":Term_list,
-               #"User":User_list,
-               "Area":Area_list,
-               "Perimeter":Perimeter_list,
-               "Geometría":WKT_list}
+        dict = {"User":User_list,
+                "Area":Area_list,
+                "Perimeter":Perimeter_list,
+                "Geometría":WKT_list}
         
     return dict
 
