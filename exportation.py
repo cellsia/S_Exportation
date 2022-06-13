@@ -1,11 +1,11 @@
 # version
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 # python
 import json
 import logging
 import os
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, MultiPolygon, Point, MultiPoint
 import shutil
 import sys
 
@@ -24,42 +24,62 @@ PATCH_SIZE = [1024, 2048, 4096]
 
 # Obtención de la geometría de un polígono
 def process_polygon(polygon):
-    pol = list(polygon.exterior.coords)
-    return pol
+    poligono = list(polygon.exterior.coords)
+    return poligono
+
+# Obtención de la geometría de los polígonos de un multipolígono
+def process_multipolygon(multipolygon):
+    multipoligono = list(multipolygon.geoms)
+    return multipoligono
 
 # Obtención de la geometría de un punto
 def process_point(point):
     punto = list(point.coords)
     return punto
 
+# Obtención de la geometría de los puntos de un multipunto
+def process_multipoint(multipunto):
+    multipunto = list(multipunto.geoms)
+    return multipunto
+
 # Función para distinguir polígonos o puntos (anotacion) dentro de otros (parche)
 def estar_dentro(parche, anotacion):
-    try:
-        anotacion_pol = Polygon(process_polygon(anotacion.location))
-        anotacion_geo = []
-        for i in range(0,len(anotacion_pol)):
-            anotacion_geo.append(Point(anotacion_pol[i]))
-    except:
-        anotacion_geo = Point(process_point(anotacion.location))
+    geometria = anotacion.location
+    anotacion_geo = []
+    if geometria.geom_type == 'Polygon':
+        anotacion_geo.append(Polygon(process_polygon(geometria)))
+        
+    elif geometria.geom_type == 'MultiPolygon':
+        geo_multi = process_multipolygon(geometria)
+        for i in range(0, len(geo_multi)):
+            anotacion_geo.append(Polygon(process_polygon(geo_multi[i])))
+    
+    elif geometria.geom_type == 'Point':
+        anotacion_geo.append(Point(process_point(geometria)))
+        
+    elif geometria.geom_type == 'MultiPoint':
+        geo_multi = process_multipoint(geometria)
+        for i in range(0, len(geo_multi)):
+            anotacion_geo.append(Point(process_point(geo_multi[i])))
+            
+    anot = []
     for j in anotacion_geo:
         if parche.contains(j):
-            return anotacion
-            break
-        else:
-            continue
+            anot.append(anotacion)
+    return anot
 
 # ------------------------------ Step functions ------------------------------
 
 #STEP 0: buscar anotaciones en general
 # Función que recoge la inforamción de todas las anotaciones manuales
 def get_anotaciones_general(params):
-    user_jobs = UserCollection().fetch_with_filter("project", params.cytomine_id_project)
-    ids = [user_job.id for user_job in user_jobs]
+    user_collections = UserCollection().fetch_with_filter("project", params.cytomine_id_project)
+    user = [user_collections.id for user_collection in user_collections]
     
     general_annots = AnnotationCollection()
     general_annots.project = params.cytomine_id_project
     general_annots.image = params.image_to_analyze
-    general_annots.users = ids
+    general_annots.users = user
     
     general_annots.showWKT = True
     general_annots.showMeta = True
@@ -85,12 +105,12 @@ def get_parches(anotaciones_general):
 # Función que recoge la inforamción de las detecciones subidas por el algoritmo de IA de dentro del parche
 def get_detecciones_dentro(parche, params):
     user_jobs = UserJobCollection().fetch_with_filter("project", params.cytomine_id_project)
-    ids = [user_job.id for user_job in user_jobs]
+    usuarios = [user_job.id for user_job in user_jobs]
     
     detecciones = AnnotationCollection()
     detecciones.project = params.cytomine_id_project
     detecciones.image = params.image_to_analyze
-    detecciones.users = ids
+    detecciones.users = usuarios
     
     detecciones.showWKT = True
     detecciones.showTerm = True
@@ -143,8 +163,10 @@ def run(cyto_job, parameters):
         
         for parche in parches:
             detecciones = get_detecciones_dentro(parche, parameters)
+            lista_detecciones = [deteccion.location for deteccion in detecciones]
             anotaciones = get_anotaciones_dentro(general_annotations, parche, parameters)
-            diccionario[parche]={"Detecciones": detecciones,"Anotaciones": anotaciones}
+            lista_anotaciones = [anotacion.location for anotacion in anotaciones]
+            diccionario[parche]={"Detecciones": lista_detecciones,"Anotaciones": lista_anotaciones}
         
               
         output_path = os.path.join(working_path, "output.json")
