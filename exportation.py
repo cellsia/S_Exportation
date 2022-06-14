@@ -1,5 +1,5 @@
 # version
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 # python
 import json
@@ -73,13 +73,13 @@ def estar_dentro(parche, anotacion):
 #STEP 0: buscar anotaciones en general
 # Función que recoge la inforamción de todas las anotaciones manuales
 def get_anotaciones_general(params):
-    user_collections = UserCollection().fetch_with_filter("project", params.cytomine_id_project)
-    user = [user_collections.id for user_collection in user_collections]
+    user_jobs = UserCollection().fetch_with_filter("project", params.cytomine_id_project)
+    ids = [user_jobs.id for user_job in user_jobs]
     
     general_annots = AnnotationCollection()
     general_annots.project = params.cytomine_id_project
     general_annots.image = params.image_to_analyze
-    general_annots.users = user
+    general_annots.users = ids
     
     general_annots.showWKT = True
     general_annots.showMeta = True
