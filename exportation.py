@@ -1,5 +1,5 @@
 # version
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 
 # python
 import json
@@ -105,12 +105,12 @@ def get_parches(anotaciones_general):
 # Función que recoge la inforamción de las detecciones subidas por el algoritmo de IA de dentro del parche
 def get_detecciones_dentro(parche, params):
     user_jobs = UserJobCollection().fetch_with_filter("project", params.cytomine_id_project)
-    usuarios = [user_job.id for user_job in user_jobs]
+    ids = [user_job.id for user_job in user_jobs]
     
     detecciones = AnnotationCollection()
     detecciones.project = params.cytomine_id_project
     detecciones.image = params.image_to_analyze
-    detecciones.users = usuarios
+    detecciones.users = ids
     
     detecciones.showWKT = True
     detecciones.showTerm = True
