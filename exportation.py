@@ -1,5 +1,5 @@
 # version
-__version__ = "1.1.4"
+__version__ = "1.1.5"
 
 # python
 import json
@@ -79,7 +79,7 @@ def get_anotaciones_general(params):
     general_annots = AnnotationCollection()
     general_annots.project = params.cytomine_id_project
     general_annots.image = params.image_to_analyze
-    general_annots.users = ids
+    #general_annots.users = ids
     
     general_annots.showWKT = True
     general_annots.showMeta = True
