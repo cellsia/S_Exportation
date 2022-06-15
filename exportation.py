@@ -1,5 +1,5 @@
 # version
-__version__ = "1.2.6"
+__version__ = "1.2.7"
 
 # python
 import json
@@ -49,25 +49,26 @@ def estar_dentro(parche, anotacion):
     anotacion_geo = []
     
     if geometria.geom_type == 'Polygon':
-        anotacion_geo.append(Polygon(process_polygon(geometria)))
+        anotacion_geo.append(process_polygon(geometria))
         
     elif geometria.geom_type == 'MultiPolygon':
         geo_multi = process_multipolygon(geometria)
         for i in range(0, len(geo_multi)):
-            anotacion_geo.append(Polygon(process_polygon(geo_multi[i])))
+            anotacion_geo.append(process_polygon(geo_multi[i]))
     
     elif geometria.geom_type == 'Point':
-        anotacion_geo.append(Point(process_point(geometria)))
+        anotacion_geo.append(process_point(geometria))
         
     elif geometria.geom_type == 'MultiPoint':
         geo_multi = process_multipoint(geometria)
         for i in range(0, len(geo_multi)):
-            anotacion_geo.append(Point(process_point(geo_multi[i])))
-            
+            anotacion_geo.append(process_point(geo_multi[i]))
+    anot = []        
     for j in anotacion_geo:
-        if not parche.contains(j):
-            anotacion_geo.remove(j)
-    return anotacion_geo
+        if parche.contains(j):
+            anot.append(j)
+    if anot:
+        return anot
 
 # ------------------------------ Step functions ------------------------------
 
