@@ -1,5 +1,5 @@
 # version
-__version__ = "1.1.8"
+__version__ = "1.1.9"
 
 # python
 import json
@@ -131,7 +131,7 @@ def get_detecciones_dentro(parche, params):
 def get_anotaciones_dentro(anotaciones_general, parche, params):
     geo_anotaciones_dentro = []
     for anotacion in anotaciones_general:
-        anotaciones_dentro.append(estar_dentro(parche, anotacion))
+        geo_anotaciones_dentro.append(estar_dentro(parche, anotacion))
     
     return geo_anotaciones_dentro
 
