@@ -1,5 +1,5 @@
 # version
-__version__ = "1.2.3"
+__version__ = "1.2.4"
 
 # python
 import json
@@ -64,11 +64,10 @@ def estar_dentro(parche, anotacion):
         for i in range(0, len(geo_multi)):
             anotacion_geo.append(Point(process_point(geo_multi[i])))
             
-    anot = []
     for j in anotacion_geo:
-        if parche.contains(j):
-            anot.append(j)
-    return anot
+        if not parche.contains(j):
+            anotacion_geo.pop(j)
+    return anotacion_geo
 
 # ------------------------------ Step functions ------------------------------
 
@@ -165,7 +164,7 @@ def run(cyto_job, parameters):
         diccionario = {}
         
         for parche in parches:
-            lista_detecciones = get_detecciones_dentro(parche, parameters)
+            detecciones = get_detecciones_dentro(parche, parameters)
             print(lista_detecciones)
             lista_anotaciones = get_anotaciones_dentro(general_annotations, parche, parameters)
             print(lista_anotaciones)
