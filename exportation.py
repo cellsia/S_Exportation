@@ -1,5 +1,5 @@
 # version
-__version__ = "1.1.9"
+__version__ = "1.2.0"
 
 # python
 import json
@@ -66,7 +66,7 @@ def estar_dentro(parche, anotacion):
     anot = []
     for j in anotacion_geo:
         if parche.contains(j):
-            anot.append(geometria)
+            anot.append(anotacion.location)
     return anot
 
 # ------------------------------ Step functions ------------------------------
