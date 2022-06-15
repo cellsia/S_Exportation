@@ -1,5 +1,5 @@
 # version
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 
 # python
 import json
@@ -120,18 +120,20 @@ def get_detecciones_dentro(parche, params):
     
     detecciones.fetch()
     
-    geo_detecciones_dentro = []
-    for deteccion in detecciones:
-        geo_detecciones_dentro.append(estar_dentro(parche, deteccion))
+    geo_detecciones_dentro = [estar_dentro(parche, deteccion) for deteccion in detecciones]
+    #geo_detecciones_dentro = []
+    #for deteccion in detecciones:
+        #geo_detecciones_dentro.append(estar_dentro(parche, deteccion))
     
     return geo_detecciones_dentro
 
 # STEP 3: buscar anotaciones manuales dentro de los parches
 # Función que recoge la información de las anotaciones manuales de dentro del parche
 def get_anotaciones_dentro(anotaciones_general, parche, params):
-    geo_anotaciones_dentro = []
-    for anotacion in anotaciones_general:
-        geo_anotaciones_dentro.append(estar_dentro(parche, anotacion))
+    geo_anotaciones_dentro = [estar_dentro(parche, anotacion) for anotacion in anotaciones_general]
+    #geo_anotaciones_dentro = []
+    #for anotacion in anotaciones_general:
+        #geo_anotaciones_dentro.append(estar_dentro(parche, anotacion))
     
     return geo_anotaciones_dentro
 
@@ -165,6 +167,7 @@ def run(cyto_job, parameters):
             lista_detecciones = get_detecciones_dentro(parche, parameters)
             print(lista_detecciones)
             lista_anotaciones = get_anotaciones_dentro(general_annotations, parche, parameters)
+            print(lista_anotaciones)
             
             diccionario[parche]={"Detecciones": lista_detecciones,"Anotaciones": lista_anotaciones}
         
