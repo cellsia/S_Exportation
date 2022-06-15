@@ -1,5 +1,5 @@
 # version
-__version__ = "1.1.7"
+__version__ = "1.1.8"
 
 # python
 import json
@@ -66,7 +66,7 @@ def estar_dentro(parche, anotacion):
     anot = []
     for j in anotacion_geo:
         if parche.contains(j):
-            anot.append(anotacion)
+            anot.append(geometria)
     return anot
 
 # ------------------------------ Step functions ------------------------------
@@ -122,7 +122,7 @@ def get_detecciones_dentro(parche, params):
     
     geo_detecciones_dentro = []
     for deteccion in detecciones:
-        geo_detecciones_dentro.append(wkt.loads(estar_dentro(parche, deteccion).location))
+        geo_detecciones_dentro.append(estar_dentro(parche, deteccion))
     
     return geo_detecciones_dentro
 
@@ -131,7 +131,7 @@ def get_detecciones_dentro(parche, params):
 def get_anotaciones_dentro(anotaciones_general, parche, params):
     geo_anotaciones_dentro = []
     for anotacion in anotaciones_general:
-        anotaciones_dentro.append(wkt.loads(estar_dentro(parche, anotacion)))
+        anotaciones_dentro.append(estar_dentro(parche, anotacion))
     
     return geo_anotaciones_dentro
 
