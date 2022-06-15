@@ -1,5 +1,5 @@
 # version
-__version__ = "1.2.2"
+__version__ = "1.2.3"
 
 # python
 import json
@@ -47,6 +47,7 @@ def process_multipoint(multipunto):
 def estar_dentro(parche, anotacion):
     geometria = wkt.loads(anotacion.location)
     anotacion_geo = []
+    
     if geometria.geom_type == 'Polygon':
         anotacion_geo.append(Polygon(process_polygon(geometria)))
         
@@ -66,7 +67,7 @@ def estar_dentro(parche, anotacion):
     anot = []
     for j in anotacion_geo:
         if parche.contains(j):
-            anot.append(anotacion.location)
+            anot.append(j)
     return anot
 
 # ------------------------------ Step functions ------------------------------
@@ -120,20 +121,20 @@ def get_detecciones_dentro(parche, params):
     
     detecciones.fetch()
     
-    geo_detecciones_dentro = [estar_dentro(parche, deteccion) for deteccion in detecciones]
-    #geo_detecciones_dentro = []
-    #for deteccion in detecciones:
-        #geo_detecciones_dentro.append(estar_dentro(parche, deteccion))
+    #geo_detecciones_dentro = [estar_dentro(parche, deteccion) for deteccion in detecciones]
+    geo_detecciones_dentro = []
+    for deteccion in detecciones:
+        geo_detecciones_dentro.append(estar_dentro(parche, deteccion))
     
     return geo_detecciones_dentro
 
 # STEP 3: buscar anotaciones manuales dentro de los parches
 # Función que recoge la información de las anotaciones manuales de dentro del parche
 def get_anotaciones_dentro(anotaciones_general, parche, params):
-    geo_anotaciones_dentro = [estar_dentro(parche, anotacion) for anotacion in anotaciones_general]
-    #geo_anotaciones_dentro = []
-    #for anotacion in anotaciones_general:
-        #geo_anotaciones_dentro.append(estar_dentro(parche, anotacion))
+    #geo_anotaciones_dentro = [estar_dentro(parche, anotacion) for anotacion in anotaciones_general]
+    geo_anotaciones_dentro = []
+    for anotacion in anotaciones_general:
+        geo_anotaciones_dentro.append(estar_dentro(parche, anotacion))
     
     return geo_anotaciones_dentro
 
