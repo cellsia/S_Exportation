@@ -1,5 +1,5 @@
 # version
-__version__ = "1.2.4"
+__version__ = "1.2.5"
 
 # python
 import json
@@ -66,7 +66,7 @@ def estar_dentro(parche, anotacion):
             
     for j in anotacion_geo:
         if not parche.contains(j):
-            anotacion_geo.pop(j)
+            anotacion_geo.remove(j)
     return anotacion_geo
 
 # ------------------------------ Step functions ------------------------------
