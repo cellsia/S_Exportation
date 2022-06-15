@@ -1,11 +1,12 @@
 # version
-__version__ = "1.1.5"
+__version__ = "1.1.6"
 
 # python
 import json
 import logging
 import os
 from shapely.geometry import Polygon, MultiPolygon, Point, MultiPoint
+from shapely import wkt
 import shutil
 import sys
 
@@ -44,7 +45,7 @@ def process_multipoint(multipunto):
 
 # Función para distinguir polígonos o puntos (anotacion) dentro de otros (parche)
 def estar_dentro(parche, anotacion):
-    geometria = anotacion.location
+    geometria = wkt.loads(anotacion.location)
     anotacion_geo = []
     if geometria.geom_type == 'Polygon':
         anotacion_geo.append(Polygon(process_polygon(geometria)))
@@ -95,10 +96,10 @@ def get_anotaciones_general(params):
 def get_parches(anotaciones_general):
     parches = []
     for anot_gen in anotaciones_general:
-        perimetro = Polygon(process_polygon(anot_gen.location)).length
+        perimetro = Polygon(process_polygon(wkt.loads(anot_gen.location))).length
         for size in PATCH_SIZE:
             if perimetro == size*4:
-                parches.append(Polygon(process_polygon(anot_gen.location)))
+                parches.append(Polygon(process_polygon(wkt.loads(anot_gen.location))))
     return parches
 
 # STEP 2: recuperar detecciones de dentro de los parches
