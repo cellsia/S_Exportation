@@ -1,5 +1,5 @@
 # version
-__version__ = "1.2.8"
+__version__ = "1.2.9"
 
 # python
 import json
@@ -70,7 +70,7 @@ def estar_dentro(parche, anotacion):
         elif j.geom_type == 'Point':
             j_procesada = process_point(j)
             
-        if parche.contains(j_procesada):
+        if parche.contains(j):
             anot.append(j_procesada)
     if anot:
         return anot
