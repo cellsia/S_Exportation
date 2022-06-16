@@ -1,5 +1,5 @@
 # version
-__version__ = "1.3.0"
+__version__ = "1.3.1"
 
 # python
 import json
@@ -171,16 +171,16 @@ def run(cyto_job, parameters):
         
         for parche in parches:
             detecciones = get_detecciones_dentro(parche, parameters)
-            for deteccion in detecciones:
-                if deteccion = 'None':
-                    detecciones.remove(deteccion)
+            #for deteccion in detecciones:
+                #if deteccion = 'None':
+                    #detecciones.remove(deteccion)
             lista_detecciones = str(detecciones)
             print(lista_detecciones)
             
             anotaciones = get_anotaciones_dentro(general_annotations, parche, parameters)
-            for anotacion in anotaciones:
-                if anotacion = 'None':
-                    anotaciones.remove(anotacion)
+            #for anotacion in anotaciones:
+                #if anotacion = 'None':
+                    #anotaciones.remove(anotacion)
             lista_anotaciones = str(anotaciones)
             print(lista_anotaciones)
             
