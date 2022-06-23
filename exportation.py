@@ -1,5 +1,5 @@
 # version
-__version__ = "1.3.5"
+__version__ = "1.3.6"
 
 # python
 import json
@@ -66,6 +66,7 @@ def estar_dentro(parche, anotacion):
             
     for j in anotacion_geo:
         j = parche.intersection(j).bounds
+        print(j)
         
     for anota in anotacion_geo:
         if anota == ():
