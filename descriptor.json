@@ -2,7 +2,7 @@
   "name": "Exportation",
   "description": "Plugin to export information from detections and manual annotations included in a patch",
   "container-image": {
-    "image": "sdominguezgonzalez/s_exportation",
+    "image": "cellsia/s_exportation",
     "type": "singularity"
   },
   "command-line": "[CYTOMINE_HOST] [CYTOMINE_PUBLIC_KEY] [CYTOMINE_PRIVATE_KEY] [CYTOMINE_ID_PROJECT] [CYTOMINE_ID_SOFTWARE] [IMAGE_TO_ANALYZE]",
