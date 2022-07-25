@@ -5,7 +5,7 @@ import sys
 from exportation.exportation_job import ExportationJob
 
 
-__version__ = "v0.0.1" 
+__version__ = "v1.4.1" 
 
 
 if __name__ == "__main__":
@@ -16,4 +16,4 @@ if __name__ == "__main__":
 
         exportation = ExportationJob()
         exportation.set_version(__version__)
-        exportation.run(cyto_job, cyto_job.parameters)
+        exportation.launch(cyto_job, cyto_job.parameters)
