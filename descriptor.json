@@ -54,7 +54,7 @@
     },
     {
       "id": "image_to_analyze",
-      "description": "Image with patch",
+      "description": "Image with patches",
       "value-key": "[@ID]",
       "command-line-flag": "--@id",
       "name": "Cytomine image",
