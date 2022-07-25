@@ -3,7 +3,7 @@ import shutil
 import os
 
 
-class Job():
+class BaseJob():
 
     def __init__(self):
         self.version = None
@@ -29,12 +29,12 @@ class Job():
     def run(self) -> None:
         pass
 
-    def launch(self, cyto_job, parameters):
+    def launch(self, cyto_job, parameters) -> None:
         
         logging.info("----- test software v%s -----", self.version)
         logging.info("Entering run(cyto_job=%s, parameters=%s)", cyto_job, parameters)
 
-        self.job = cyto_job
+        self.job = cyto_job.job
         self.project = cyto_job.project
         self.parameters = parameters
 
