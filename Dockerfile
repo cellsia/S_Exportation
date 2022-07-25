@@ -1,5 +1,7 @@
 FROM cytomine/software-python3-base
 
-ADD exportation.py /app/exportation.py
+WORKDIR /app
 
-ENTRYPOINT ["python", "/app/exportation.py"]
+COPY src/ .
+
+ENTRYPOINT ["python", "/app/src/run.py"]
