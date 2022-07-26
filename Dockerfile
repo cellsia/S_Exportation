@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY src/ .
 
-ENTRYPOINT ["python", "/app/src/run.py"]
+ENTRYPOINT ["python", "/app/run.py"]
