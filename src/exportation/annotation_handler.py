@@ -1,3 +1,4 @@
+from importlib.resources import path
 from cytomine.models.annotation import AnnotationCollection
 from exportation.utils import is_polygon, is_patch, is_point, get_patch_sizes, get_annot_geometry, get_distances
 from exportation.templates import all_patches_template, patch_template
@@ -29,24 +30,21 @@ class AnnotationHandler():
 
     def _iterate_points(self) -> None:
         self.patch_points = {}
-        for p in self.points:
-            for patch in self.patches:
-                poly = get_annot_geometry(patch)
-                point = get_annot_geometry(p)
-                if poly.contains(point):
-                    self._insert_point(p, patch)
-                    continue
-        self.template["patches"] = self.patch_points
-
-    def _insert_point(self, point, patch) -> None:
-        if not patch.id in self.patch_points.keys():
-            self.patch_points[patch.id] = patch_template
+        for patch in self.patches:
+            self.patch_points[patch.id] = patch_template.copy()
+            self.patch_points[patch.id]["patch_id"] = patch.id
             poly = get_annot_geometry(patch)
             distances = get_distances(poly)
             self.patch_points[patch.id]["patch_size"] = distances[0]
             self.patch_points[patch.id]["patch_coords"] = list(poly.exterior.coords)
             self.patch_points[patch.id]["inside_points"] = []
-        self.patch_points[patch.id]["inside_points"].append(point)
+            self.patch_points[patch.id]["inside_points_len"] = 0
+            for p in self.points:
+                point = get_annot_geometry(p)
+                if poly.contains(point):
+                    self.patch_points[patch.id]["inside_points_len"] += 1
+                    self.patch_points[patch.id]["inside_points"].append(p)
+        self.template["patches"] = self.patch_points     
 
     def get_patches(self, project_id: int, image_id: int) -> None:
         user_annotations = self._fetch_image_annotations(project_id, image_id)

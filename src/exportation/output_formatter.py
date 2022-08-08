@@ -23,15 +23,17 @@ class OutputFormatter():
         return term.name
 
     def _group_points_by_class(self, points, project_id: int) -> dict:
-        points_by_class = {"no_term": []}
+        points_by_class = {}
         for p in points:
             if p.term:
                 term_name = self._get_term_name(p.term[0], project_id)
                 if not term_name in points_by_class:
                     points_by_class[term_name] = []
-                points_by_class[term_name].append((p.x, p.y))
+                points_by_class[term_name].append((int(p.x), int(p.y)))
             else:
-                points_by_class["no_term"].append((p.x, p.y))
+                if not "no_term" in points_by_class.keys():
+                    points_by_class = {"no_term": []}
+                points_by_class["no_term"].append((int(p.x), int(p.y)))
         return points_by_class
 
     def _format_patch(self, key: int, patch, project_id: int) -> dict:

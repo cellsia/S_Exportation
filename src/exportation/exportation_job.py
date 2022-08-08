@@ -38,7 +38,7 @@ class ExportationJob(BaseJob):
         job.update(progres = 75, status = Job.RUNNING, statusComment = "Uploading results file")
         self.file_manager = FileManager()
         self.file_manager.set_template(formatted_template)
-        self.file_manager.data_to_json(self.working_path, job)
+        self.file_manager.data_to_json(self.working_path, job, project.id)
 
         job.update(progres = 100, status = Job.TERMINATED, statusComment = "Exportation done!")
 
