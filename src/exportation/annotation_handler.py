@@ -15,6 +15,7 @@ class AnnotationHandler():
         annotations = AnnotationCollection()
         annotations.project = project_id
         annotations.image = image_id
+        annotations.reviewed = True
         annotations.showWKT = True
         annotations.showMeta = True
         annotations.showGIS = True
