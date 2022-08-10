@@ -1,3 +1,4 @@
+from unittest.mock import patch
 import shapely.wkt
 import math
 
@@ -32,3 +33,23 @@ def get_patch_sizes(patches):
             sizes[patch_size] = 0
         sizes[patch_size] += 1
     return sizes
+
+def get_patch_origin(patch_coords):
+    x = [p[0] for p in patch_coords]
+    y = [p[1] for p in patch_coords]
+    return (int(min(x)), int(min(y)))
+
+def fix_borders(x_min, x_max, y_min, y_max, patch_size, point_class):
+    aux = {
+        "x_min":x_min,
+        "x_max":x_max,
+        "y_min":y_min,
+        "y_max":y_max
+    }
+    for key, value in aux.items():
+        if value > int(patch_size - 1):
+            aux[key] = int(patch_size - 1)
+        elif value < 0:
+            aux[key] = 0
+    return (aux["x_min"], aux["x_max"], aux["y_min"], aux["y_max"], point_class)
+    

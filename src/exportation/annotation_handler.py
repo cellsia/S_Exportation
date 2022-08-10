@@ -11,11 +11,11 @@ class AnnotationHandler():
         self.template = None
         self.patch_points = None
 
-    def _fetch_image_annotations(self, project_id: int, image_id: int) -> AnnotationCollection():
+    def _fetch_image_annotations(self, project_id: int, image_id: int, reviewed = False) -> AnnotationCollection():
         annotations = AnnotationCollection()
         annotations.project = project_id
         annotations.image = image_id
-        annotations.reviewed = True
+        annotations.reviewed = reviewed
         annotations.showWKT = True
         annotations.showMeta = True
         annotations.showGIS = True
@@ -48,7 +48,7 @@ class AnnotationHandler():
         self.template["patches"] = self.patch_points     
 
     def get_patches(self, project_id: int, image_id: int) -> None:
-        user_annotations = self._fetch_image_annotations(project_id, image_id)
+        user_annotations = self._fetch_image_annotations(project_id, image_id, reviewed = True)
         polygons_iterator = filter(is_polygon, user_annotations)
         polygons = list(polygons_iterator)
         patches_iterator = filter(is_patch, polygons)

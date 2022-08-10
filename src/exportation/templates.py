@@ -12,5 +12,6 @@ patch_template = {
     "patch_size" : None,
     "patch_coords" : None,
     "inside_points_len" : None,
-    "inside_points": None
+    "inside_points": None,
+    "classes" : None
 }
