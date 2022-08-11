@@ -10,11 +10,12 @@ class OutputFormatter():
         self.template = None
 
     def _fetch_image_info(self, project_id: int, image_id: int) -> None:
-        image_instances = ImageInstanceCollection().fetch_with_filter("project", project_id)
-        filtered_image_instances_iterable = filter(lambda i:i.id == image_id, image_instances)
-        image = list(filtered_image_instances_iterable)[0]
-        self.template["image_id"] = image.id
-        self.template["image_name"] = image.originalFilename
+        if image_id:
+            image_instances = ImageInstanceCollection().fetch_with_filter("project", project_id)
+            filtered_image_instances_iterable = filter(lambda i:i.id == image_id, image_instances)
+            image = list(filtered_image_instances_iterable)[0]
+            self.template["image_id"] = image.id
+            self.template["image_name"] = image.originalFilename
 
     def _get_term_name(self, term_id: int, project_id: int) -> str:
         termcollection = TermCollection().fetch_with_filter("project", project_id)

@@ -40,6 +40,7 @@ class AnnotationHandler():
             self.patch_points[patch.id]["patch_coords"] = list(poly.exterior.coords)
             self.patch_points[patch.id]["inside_points"] = []
             self.patch_points[patch.id]["inside_points_len"] = 0
+            self.patch_points[patch.id]["image"] = patch.image
             for p in self.points:
                 point = get_annot_geometry(p)
                 if poly.contains(point):

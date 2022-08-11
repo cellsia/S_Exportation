@@ -11,11 +11,11 @@ class FileManager():
     def set_template(self, template: dict) -> None:
         self.template = template
 
-    def data_to_json(self, working_path: str, job, project_id: int, offset: int) -> None:
-        image_id = self.template["image_id"]
+    def data_to_json(self, working_path: str, job, project_id: int, offset: int, add_job_data = True) -> None:
         patches = self.template["patches"]
         cter = offset
         for patch in patches:
+            image_id = patch["image"]
             cter += 1
             patch_coords = patch["patch_coords"]
             patch_size = patch["patch_size"]
@@ -30,12 +30,13 @@ class FileManager():
             image.window(x_aux, y_aux, patch_size, patch_size, dest_pattern=dest_path)
             classes = patch["classes"]
             classes_str = "-".join(classes)
-            job_data = JobData(job.id, "patch", f"{classes_str}-{cter}.jpg").save()
-            job_data.upload(dest_path)
             patch_data = patch["inside_points"]
             output_path = os.path.join(working_path, f"{classes_str}-{cter}.json")
             f = open(output_path,"w+")
             json.dump(patch_data, f)
             f.close()
-            job_data = JobData(job.id, "patch-data", f"{classes_str}-{cter}.json").save()
-            job_data.upload(output_path)
+            if add_job_data:
+                job_data = JobData(job.id, "patch", f"{classes_str}-{cter}.jpg").save()
+                job_data.upload(dest_path)
+                job_data = JobData(job.id, "patch-data", f"{classes_str}-{cter}.json").save()
+                job_data.upload(output_path)

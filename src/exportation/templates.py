@@ -10,6 +10,7 @@ all_patches_template = {
 patch_template = {
     "patch_id" : None,
     "patch_size" : None,
+    "image" : None,
     "patch_coords" : None,
     "inside_points_len" : None,
     "inside_points": None,
