@@ -82,6 +82,15 @@
       "set-by-server": false,
       "optional": false,
       "type": "Number"
+    },
+    {
+      "id": "training_type",
+      "value-key": "[@ID]",
+      "command-line-flag": "--@id",
+      "name": "AI training type",
+      "set-by-server": false,
+      "optional": false,
+      "type": "String"
     }
   ],
 
