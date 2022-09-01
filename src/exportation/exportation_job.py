@@ -57,8 +57,8 @@ class ExportationJob(BaseJob):
             self.output_formatter.format(project, params)
             formatted_template = self.output_formatter.template
 
-            del annotation_handler
-            del output_formatter
+            del self.annotation_handler
+            del self.output_formatter
             del template
 
             job.update(progres = 75, status = Job.RUNNING, statusComment = "Uploading results file")

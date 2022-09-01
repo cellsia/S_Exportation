@@ -29,7 +29,10 @@ class FileManager():
             dest_path = os.path.join(working_path, f"patch-{cter}.jpg")
             image.window(x_aux, y_aux, patch_size, patch_size, dest_pattern=dest_path)
             classes = patch["classes"]
-            classes_str = "-".join(classes)
+            if classes:
+                classes_str = "-".join(classes)
+            else:
+                classes_str = "empty"
             patch_data = patch["inside_points"]
             output_path = os.path.join(working_path, f"{classes_str}-{cter}.json")
             f = open(output_path,"w+")
