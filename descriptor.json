@@ -91,7 +91,16 @@
       "set-by-server": false,
       "optional": false,
       "type": "String"
-    }
+    }, 
+    {
+      "id": "output_file",
+      "value-key": "[@ID]",
+      "command-line-flag": "--@id",
+      "name": "AI training output file",
+      "set-by-server": false,
+      "optional": false,
+      "type": "String"
+    } 
   ],
 
   "schema-version": "cytomine-0.1"

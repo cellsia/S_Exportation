@@ -13,9 +13,8 @@ class ExportationJob(BaseJob):
         self.output_formatter = None
         self.file_manager = None
 
-    def run(self, job, project, params) -> None:
-
-        print("----- Running Exportation -----")
+    def _object_detection(self, job, project, params) -> None:
+        print("----- Running Object Detection Exportation -----")
         if params.image_to_analyze:
             job.update(progres = 0, status = Job.RUNNING, statusComment = "Fetching annotations and patches")
             self.annotation_handler = AnnotationHandler()
@@ -67,6 +66,11 @@ class ExportationJob(BaseJob):
             self.file_manager.data_to_json(self.working_path, job, project.id, params.offset)
 
             job.update(progres = 100, status = Job.TERMINATED, statusComment = "Exportation done!")
+
+    def run(self, job, project, params) -> None:
+        if params.training_type == "object-detection":
+            self._object_detection(job, project, params)
+        
 
         
         
