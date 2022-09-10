@@ -27,6 +27,7 @@ class ExportationJob(BaseJob):
             job.update(progres = 50, status = Job.RUNNING, statusComment = "Formatting the output")
             self.output_formatter = OutputFormatter()
             self.output_formatter.set_template(template)
+            self.output_formatter.set_output_file(params.output_file)
             self.output_formatter.format(project, params)
             formatted_template = self.output_formatter.template
             
@@ -37,8 +38,9 @@ class ExportationJob(BaseJob):
             job.update(progres = 75, status = Job.RUNNING, statusComment = "Uploading results file")
             self.file_manager = FileManager()
             self.file_manager.set_template(formatted_template)
-            self.file_manager.data_to_json(self.working_path, job, project.id, params.offset)
-
+            self.file_manager.set_output_file(params.output_file)
+            self.file_manager.generate_files(self.working_path, job, project.id, params.offset)
+            
             job.update(progres = 100, status = Job.TERMINATED, statusComment = "Exportation done!")
         
         else:
@@ -53,6 +55,7 @@ class ExportationJob(BaseJob):
             job.update(progres = 50, status = Job.RUNNING, statusComment = "Formatting the output")
             self.output_formatter = OutputFormatter()
             self.output_formatter.set_template(template)
+            self.output_formatter.set_output_file(params.output_file)
             self.output_formatter.format(project, params)
             formatted_template = self.output_formatter.template
 
@@ -63,7 +66,8 @@ class ExportationJob(BaseJob):
             job.update(progres = 75, status = Job.RUNNING, statusComment = "Uploading results file")
             self.file_manager = FileManager()
             self.file_manager.set_template(formatted_template)
-            self.file_manager.data_to_json(self.working_path, job, project.id, params.offset)
+            self.file_manager.set_output_file(params.output_file)
+            self.file_manager.generate_files(self.working_path, job, project.id, params.offset)
 
             job.update(progres = 100, status = Job.TERMINATED, statusComment = "Exportation done!")
 

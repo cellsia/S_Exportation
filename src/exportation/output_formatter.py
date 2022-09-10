@@ -8,6 +8,7 @@ class OutputFormatter():
 
     def __init__(self):
         self.template = None
+        self.output_file = None
 
     def _fetch_image_info(self, project_id: int, image_id: int) -> None:
         if image_id:
@@ -63,7 +64,7 @@ class OutputFormatter():
                     x_min = int((p[0] - (box_size / 2)) - origin[0])
                     x_max = int((p[0] + (box_size / 2)) - origin[0])
                     y_min = int((p[1] - (box_size / 2)) - origin[1])
-                    y_max = int((p[1] + (box_size / 2)) - origin[1])
+                    y_max = int((p[1] + (box_size / 2)) - origin[1])                   
                     box = fix_borders(x_min, x_max, y_min, y_max, patch_size, point_class)
                     all_points.append(box)
             patch["inside_points"] = all_points
@@ -71,7 +72,11 @@ class OutputFormatter():
     def set_template(self, template: dict) -> None:
         self.template = template
 
+    def set_output_file(self, output_file: str) -> None:
+        self.output_file = output_file
+
     def format(self, project, params) -> None:
-        self._fetch_image_info(project.id, params.image_to_analyze)
-        self._format_patches(project.id)
-        self._format_boxes(params.box_size)
+        if self.output_file in ["json", "pascal", "coco"]:    
+            self._fetch_image_info(project.id, params.image_to_analyze)
+            self._format_patches(project.id)
+            self._format_boxes(params.box_size)
