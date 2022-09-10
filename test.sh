@@ -7,6 +7,8 @@ software_id=0
 image_id=0
 offset=0
 box_size=0
+training_type=""
+output_file=""
 
 python3 src/run.py \
     --cytomine_host $host \
@@ -16,4 +18,6 @@ python3 src/run.py \
     --cytomine_id_software $software_id \
     --image_to_analyze $image_id \
     --offset $offset \
-    --box_size $box_size
+    --box_size $box_size \
+    --training_type $training_type \
+    --output_file $output_file
