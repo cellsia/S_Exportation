@@ -1,6 +1,6 @@
 from cytomine.models.image import ImageInstanceCollection
 from cytomine.models.software import JobData
-from exportation.utils import create_pascal_xml, create_coco_from_pascal, box_size_parser
+from exportation.utils import create_pascal_xml, create_coco_from_pascal
 import json
 import os
 
@@ -17,7 +17,6 @@ class FileManager():
         self.output_file = output_file
 
     def generate_files(self, working_path: str, job, project_id: int, offset: int, add_job_data = True) -> None:
-        offset = box_size_parser(offset)
         if self.output_file == "json":
             self._data_to_json(working_path, job, project_id, offset, add_job_data)
         elif self.output_file == "pascal":
