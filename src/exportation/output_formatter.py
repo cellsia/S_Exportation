@@ -1,5 +1,5 @@
 from cytomine.models.image import ImageInstanceCollection
-from exportation.utils import get_patch_origin, fix_borders
+from exportation.utils import get_patch_origin, fix_borders, box_size_parser
 from cytomine.models import TermCollection
 
 
@@ -9,6 +9,7 @@ class OutputFormatter():
     def __init__(self):
         self.template = None
         self.output_file = None
+        self.default_box_size = 50
 
     def _fetch_image_info(self, project_id: int, image_id: int) -> None:
         if image_id:
@@ -52,7 +53,7 @@ class OutputFormatter():
         for key, patch in patches.items():
             self.template["patches"].append(self._format_patch(key, patch, project_id))
 
-    def _format_boxes(self, box_size: int) -> None:
+    def _format_boxes(self, box_sizes: int) -> None:
         patches = self.template["patches"]
         for patch in patches:
             all_points = []
@@ -61,6 +62,10 @@ class OutputFormatter():
             patch_size = patch["patch_size"]
             for point_class, points in patch["inside_points"].items():
                 for p in points:
+                    if point_class in box_sizes.keys():
+                        box_size = box_sizes[point_class]
+                    else:
+                        box_size = self.default_box_size
                     x_min = int((p[0] - (box_size / 2)) - origin[0])
                     x_max = int((p[0] + (box_size / 2)) - origin[0])
                     y_min = int((p[1] - (box_size / 2)) - origin[1])
@@ -79,4 +84,4 @@ class OutputFormatter():
         if self.output_file in ["json", "pascal", "coco"]:    
             self._fetch_image_info(project.id, params.image_to_analyze)
             self._format_patches(project.id)
-            self._format_boxes(params.box_size)
+            self._format_boxes(box_size_parser(params.box_size))

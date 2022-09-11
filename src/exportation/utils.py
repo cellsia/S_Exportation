@@ -135,4 +135,12 @@ def create_coco_from_pascal(image_no_ext, working_path):
         bb = _convert((w,h), b)
         out_file.write(str(cls) + " " + " ".join([str(a) for a in bb]) + '\n')
 
+def box_size_parser(str_box_size):
+    str_sizes = str_box_size.split("|")
+    sizes = [s.split(",") for s in str_sizes]
+    output_sizes = {}
+    for s in sizes:
+        output_sizes[s[0]] = int(s[1])
+    return output_sizes
+
     
