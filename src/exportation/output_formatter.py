@@ -68,8 +68,8 @@ class OutputFormatter():
                         box_size = self.default_box_size
                     x_min = int((p[0] - (box_size / 2)) - origin[0])
                     x_max = int((p[0] + (box_size / 2)) - origin[0])
-                    y_min = int((p[1] - (box_size / 2)) - origin[1])
-                    y_max = int((p[1] + (box_size / 2)) - origin[1])                   
+                    y_min = int((p[1] + (box_size / 2)) - origin[1])                   
+                    y_max = int((p[1] - (box_size / 2)) - origin[1])                   
                     box = fix_borders(x_min, x_max, y_min, y_max, patch_size, point_class)
                     all_points.append(box)
             patch["inside_points"] = all_points

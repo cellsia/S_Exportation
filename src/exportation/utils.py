@@ -103,7 +103,7 @@ def create_pascal_xml(boxes, output_path, folder, patch_filename, patch_size):
             dom_name.firstChild.data = name
             dom.firstChild.appendChild(object_dom_aux)
     myxml = open(output_path, 'w+')
-    myxml.write(dom.toxml())
+    myxml.write(dom.toprettyxml())
     myxml.close()
 
 def _convert(size, box):
