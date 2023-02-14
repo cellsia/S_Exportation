@@ -58,7 +58,10 @@ def fix_borders(x_min, x_max, y_min, y_max, patch_size, point_class):
 
 def create_pascal_xml(boxes, output_path, folder, patch_filename, patch_size):
     #input_path_base_xml = 'base.xml'
-    input_path_base_xml = f'<annotation><folder>{folder}</folder>-<path>{output_path}</path>-<filename>{patch_filename}</filename>-<source><annotation>CellsIA Viewer</annotation></source>-<size><width>{patch_size}</width><height>{patch_size}</height><depth>3</depth></size>-<object><name>0</name>-<bndbox><xmin>786</xmin><ymin>654</ymin><xmax>837</xmax><ymax>715</ymax></bndbox></object></annotation>'
+    object = ""
+    if boxes: # Resolve annotation on empty patch
+        object = "<object><name>0</name>-<bndbox><xmin>786</xmin><ymin>654</ymin><xmax>837</xmax><ymax>715</ymax></bndbox></object>"
+    input_path_base_xml = f'<annotation><folder>{folder}</folder>-<path>{output_path}</path>-<filename>{patch_filename}</filename>-<source><annotation>CellsIA Viewer</annotation></source>-<size><width>{patch_size}</width><height>{patch_size}</height><depth>3</depth></size>-{object}</annotation>'
     poligonos = boxes
     dom = parseString(input_path_base_xml)
     dom_aux = parseString(input_path_base_xml)

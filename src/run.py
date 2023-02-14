@@ -5,7 +5,7 @@ import sys
 from exportation.exportation_job import ExportationJob
 
 
-__version__ = "v1.5.3" 
+__version__ = "v1.5.4" 
 
 
 if __name__ == "__main__":
